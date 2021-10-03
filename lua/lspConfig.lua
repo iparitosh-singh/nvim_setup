@@ -1,16 +1,3 @@
-require'lspconfig'.clangd.setup{}
-require'lspconfig'.tsserver.setup{}
-require'lspconfig'.pyright.setup{
-    settings = {
-        python = {
-            analysis = {
-                typeCheckingMode = "off"
-                },
-            pythonPath="/usr/bin/python3"
-        }
-    }
-}
-
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 vim.lsp.diagnostic.on_publish_diagnostics, {
