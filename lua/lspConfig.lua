@@ -4,6 +4,7 @@ vim.lsp.diagnostic.on_publish_diagnostics, {
     update_in_insert = true,
 })
 
+
 local nvim_lsp = require('lspconfig')
 
 -- Use an on_attach function to only map the following keys
@@ -41,20 +42,30 @@ end
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
-local servers = { 'pyright', 'clangd', 'tsserver' }
+local servers = {'clangd', 'tsserver' }
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup {
     on_attach = on_attach,
     flags = {
-      debounce_text_changes = 150,
-    },
-    settings = {
-        python = {
-            analysis = {
-                typeCheckingMode = "off"
-                },
-            pythonPath="python"
-        }
+      debounce_text_changes = 400,
     }
   }
 end
+
+-- Pyright setup
+require'lspconfig'.pyright.setup{
+    on_attach = on_attach,
+    flags = {
+      debounce_text_changes = 400,
+    },
+    settings = {
+      python = {
+        analysis = {
+          autoSearchPaths = true,
+          diagnosticMode = "workspace",
+          useLibraryCodeForTypes = true
+        }
+      }
+  }
+}
+
